@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # install library
+    # installed library
     'rest_framework',
-    'rest_framework.authtoken',  # <-- Here
+    'rest_framework.authtoken',  
+    'drf_yasg',
     
     # my app
     'accounts',
