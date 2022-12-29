@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  
     'drf_yasg',
-    
+    'rest_framework_simplejwt',    
     # my app
     'accounts',
     'todo',
@@ -142,9 +142,18 @@ STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",
 ]
 
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
 
 LOGOUT_REDIRECT_URL = reverse_lazy("accounts:login")
 LOGIN_REDIRECT_URL = reverse_lazy("todo:task-list")
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ]
+}
 # AUTH_USER_MODEL = 'accounts.User'
