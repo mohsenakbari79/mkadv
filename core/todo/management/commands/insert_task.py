@@ -15,5 +15,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         user = User.objects.create_user(email=self.faker.email(), password="T@123456")
         for _ in range(5):
-            Task.objects.create(author=user, title=self.faker.text())
+            Task.objects.create(author=user, title=self.faker.text(),status=self.faker.boolean(chance_of_getting_true=50))
         print(f"create five task for user : {user.email} & password : T@123456")
