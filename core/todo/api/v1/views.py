@@ -15,6 +15,9 @@ class TaskModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
+    
+    def get_queryset(self):
+        return self.queryset.filter(author=self.request.user)
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = {'category':["exact","in"], 'author':["exact"],'status':["exact"]}
     # filterset_class = PostFilters
