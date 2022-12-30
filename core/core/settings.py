@@ -157,3 +157,7 @@ REST_FRAMEWORK = {
     ]
 }
 # AUTH_USER_MODEL = 'accounts.User'
+
+
+# celery configs
+CELERY_BROKER_URL = "redis://redis:6379/1"
