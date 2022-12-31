@@ -28,6 +28,7 @@ services:
       - DB_PORT=5432
     depends_on:
       - redis
+      - db
 
   redis:
     container_name: redis
