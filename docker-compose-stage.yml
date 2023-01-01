@@ -1,5 +1,14 @@
 version: '3.8'
 
+x-common-variables:
+  &common-variables
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: postgres
+  POSTGRES_HOST_AUTH_METHOD: trust
+  POSTGRES_USER: postgres
+  DB_HOST: db
+  DB_PORT: 5432
+
 services:
   backend:
     build:
@@ -19,13 +28,10 @@ services:
       - "8000"
 
     environment:
-      - SECRET_KEY=django-insecure-=#3%8gam+z%r%rxz%#xfi!yk$u_uklcui+^-()58%@s9zrxju3
-      - DEBUG=True
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
+      SECRET_KEY: django-insecure-=#3%8gam+z%r%rxz%#xfi!yk$u_uklcui+^-()58%@s9zrxju3
+      DEBUG: "True"
+      <<: *common-variables
+
     depends_on:
       - redis
       - db
@@ -42,39 +48,29 @@ services:
     build: .
     command: celery -A core worker --loglevel=info
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
+      <<: *common-variables
     volumes:
       - ./core:/app
     depends_on:
       - redis
       - backend
-      
+
   beat:
     build: .
     command: celery -A core beat --loglevel=info
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
+      <<: *common-variables
     volumes:
       - ./core:/app
     depends_on:
       - worker
-  
+
   db:
     image: postgres
     container_name: db
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_HOST_AUTH_METHOD: trust
+      <<: *common-variables
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
@@ -96,7 +92,6 @@ services:
     depends_on:
       - redis
       - backend
-    
 
 volumes:
   static_volume:
